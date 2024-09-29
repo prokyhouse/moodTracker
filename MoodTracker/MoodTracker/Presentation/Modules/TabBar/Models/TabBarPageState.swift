@@ -19,11 +19,11 @@ public enum TabBarPageState {
 extension TabBarPageState {
     var color: UIColor {
         switch self {
-        case .selected, .unselected:
-            return AppResources.colors.main
-
-        case .disabled:
-            return AppResources.colors.disabledElements
+            case .selected, .unselected:
+                return AppResources.colors.elements
+                
+            case .disabled:
+                return AppResources.colors.gray
         }
     }
 }
