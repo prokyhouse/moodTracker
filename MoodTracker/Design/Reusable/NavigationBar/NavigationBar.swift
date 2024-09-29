@@ -99,7 +99,7 @@ open class NavigationBar: BaseNavigationBar {
         let button = UIButton(type: .system)
         button.tintColor = colors.elements
         button.isHidden = true
-        button.titleLabel?.font = AppResources.fonts.styles.mainText
+        button.titleLabel?.font = AppResources.fonts.styles.title
         button.setTitleColor(colors.elements, for: .normal)
         button.setTitleColor(colors.gray, for: .disabled)
         return button
@@ -110,7 +110,7 @@ open class NavigationBar: BaseNavigationBar {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
         label.numberOfLines = .zero
-        label.font = AppResources.fonts.styles.titleH2
+        label.font = AppResources.fonts.styles.title
         label.textColor = colors.elements
         label.backgroundColor = .clear
         label.text = ""
