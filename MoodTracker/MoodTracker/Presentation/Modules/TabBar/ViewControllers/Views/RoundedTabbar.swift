@@ -160,12 +160,12 @@ private extension RoundedTabbar {
 
     func setupAppearance() {
         isTranslucent = false
-        tintColor = AppResources.colors.main
+        tintColor = AppResources.colors.elements
         tintAdjustmentMode = .normal
         shadowImage = nil
         backgroundImage = nil
         clipsToBounds = false
-        unselectedItemTintColor = AppResources.colors.main
+        unselectedItemTintColor = AppResources.colors.elements
 
         let appearance = UITabBarAppearance()
         appearance.backgroundColor = AppResources.colors.background

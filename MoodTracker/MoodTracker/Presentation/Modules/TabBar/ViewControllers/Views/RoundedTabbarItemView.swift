@@ -31,7 +31,7 @@ final class RoundedTabbarItemView: UIView {
 
     private let titleLabel: UILabel = {
         $0.font = AppResources.fonts.styles.ultraSmall
-        $0.textColor = AppResources.colors.main
+        $0.textColor = AppResources.colors.elements
         $0.textAlignment = .center
         $0.numberOfLines = 2
         return $0

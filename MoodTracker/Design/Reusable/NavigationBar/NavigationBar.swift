@@ -97,11 +97,11 @@ open class NavigationBar: BaseNavigationBar {
     private let rightButton: UIButton = {
         let colors = AppResources.colors
         let button = UIButton(type: .system)
-        button.tintColor = colors.main
+        button.tintColor = colors.elements
         button.isHidden = true
         button.titleLabel?.font = AppResources.fonts.styles.mainText
-        button.setTitleColor(colors.main, for: .normal)
-        button.setTitleColor(colors.disabledElements, for: .disabled)
+        button.setTitleColor(colors.elements, for: .normal)
+        button.setTitleColor(colors.gray, for: .disabled)
         return button
     }()
 
@@ -111,7 +111,7 @@ open class NavigationBar: BaseNavigationBar {
         label.textAlignment = .center
         label.numberOfLines = .zero
         label.font = AppResources.fonts.styles.titleH2
-        label.textColor = colors.whiteOnAccentBackgrounds
+        label.textColor = colors.elements
         label.backgroundColor = .clear
         label.text = ""
         return label
@@ -211,7 +211,7 @@ private extension NavigationBar {
             AppResources.images.backArrow.get().withRenderingMode(.alwaysTemplate),
             for: []
         )
-        backButton.tintColor = AppResources.colors.main
+        backButton.tintColor = AppResources.colors.elements
     }
 
     func setupCloseButton() {

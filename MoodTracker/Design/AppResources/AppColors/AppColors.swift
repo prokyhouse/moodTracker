@@ -11,71 +11,23 @@ import UIKit
 public final class AppColors {
     // MARK: Public Properties
 
-    /// Background and surface (day: #FFFFFF 100%, night: #1D1D21 100%)
-    public private(set) lazy var backgroundAndSurface: UIColor = .dynamicColor(light: white, dark: satinDeepBlack)
+    public private(set) lazy var accent: UIColor = .dynamicColor(light: accentForLight, dark: accentForDark)
 
-    /// Transparent surface (day: #FFFFFF 80%, night: #1D1D21 80%)
-    public private(set) lazy var transparentSurface: UIColor = .dynamicColor(
-        light: white.withAlphaComponent(0.8),
-        dark: satinDeepBlack.withAlphaComponent(0.8)
-    )
+    public private(set) lazy var background: UIColor = .dynamicColor(light: backgroundForLight, dark: backgroundForDark)
 
-    /// Background (day: #EEEDF1 100%, night: #302E36 100%)
-    public private(set) lazy var background: UIColor = .dynamicColor(light: submarine, dark: submarine)
+    public private(set) lazy var elements: UIColor = .dynamicColor(light: elementsForLight, dark: elementsForDark)
 
-    /// Main (day: #2C2C33 100%, night: #FFFFFF 100%)
-    public private(set) lazy var main: UIColor = .dynamicColor(light: bastille, dark: white)
+    public private(set) lazy var red: UIColor = .dynamicColor(light: warmRed, dark: warmRed)
 
-    /// Input (day: #F5F5F5 100%, night: #2D2D2F 100%)
-    public private(set) lazy var input: UIColor = .dynamicColor(light: lightGray, dark: midnightGray)
+    public private(set) lazy var orange: UIColor = .dynamicColor(light: darkOrange, dark: darkOrange)
 
-    /// Black on accent backgrounds (day: #2C2C33 100%, night: #2C2C33 100%)
-    public private(set) lazy var blackOnAccentBackgrounds: UIColor = .dynamicColor(light: bastille, dark: bastille)
+    public private(set) lazy var green: UIColor = .dynamicColor(light: avocadoGreen, dark: avocadoGreen)
 
-    /// White on accent backgrounds (day: #FFFFFF 100%, night: #FFFFFF 100%)
-    public private(set) lazy var whiteOnAccentBackgrounds: UIColor = .dynamicColor(light: white, dark: white)
+    public private(set) lazy var indigo: UIColor = .dynamicColor(light: persianIndigo, dark: persianIndigo)
 
-    /// Overlay color (day: #000000 80%, night: #000000 70%)
-    public private(set) lazy var overlay: UIColor = .dynamicColor(
-        light: black.withAlphaComponent(0.8),
-        dark: black.withAlphaComponent(0.7)
-    )
+    public private(set) lazy var blue: UIColor = .dynamicColor(light: oceanBlue, dark: oceanBlue)
 
-    /// Second (day: #808092 100%, night: #FFFFFF 100%)
-    public private(set) lazy var second: UIColor = .dynamicColor(light: purpletone, dark: victorianPewter)
-
-    /// Transparent progress (day: #000000 10%, night: #C3C3C3 10%)
-    public private(set) lazy var transparentProgress: UIColor = .dynamicColor(
-        light: black.withAlphaComponent(0.1),
-        dark: weatheredStone.withAlphaComponent(0.1)
-    )
-
-    /// Disabled elements (day: #BFBFCD 100%, night: #595967 80%)
-    public private(set) lazy var disabledElements: UIColor = .dynamicColor(
-        light: gentlemansSuit,
-        dark: gunmetal.withAlphaComponent(0.8)
-    )
-
-    /// Lemon (day: #EDFF40 100%, night: #EDFF40 100%)
-    public private(set) lazy var lemon: UIColor = .dynamicColor(light: offYellow, dark: offYellow)
-
-    /// Violet (day: #9D61FF 100%, night: #9D61FF 100%)
-    public private(set) lazy var violet: UIColor = .dynamicColor(light: irrigoPurple, dark: irrigoPurple)
-
-    /// Pink (day: #FF55D4 100%, night: #FF55D4 100%)
-    public private(set) lazy var pink: UIColor = .dynamicColor(light: drunkenFlamingo, dark: drunkenFlamingo)
-
-    /// Second (day: #8A88FF 100%, night: #8A88FF 100%)
-    public private(set) lazy var error: UIColor = .dynamicColor(light: redMull, dark: redMull)
-
-    /// Second (day: #FA8ADE 100%, night: #FA8ADE 100%)
-    public private(set) lazy var success: UIColor = .dynamicColor(light: poisonousPesticide, dark: poisonousPesticide)
-
-    /// Attention (day: #FFAF65 100%, night: #FFAF65 100%)
-    public private(set) lazy var attention: UIColor = .dynamicColor(light: orange, dark: orange)
-
-    /// Light / Gray / Gray 3 (day: #C7C7CC 100%, night: #C7C7CC 100%)
-    public private(set) lazy var gray: UIColor = .dynamicColor(light: centreStage, dark: centreStage)
+    public private(set) lazy var gray: UIColor = .dynamicColor(light: trafficGray, dark: trafficGray)
 
     public func custom(
         light lightKeyPath: KeyPath<AppColors, UIColor>,
@@ -100,70 +52,41 @@ public final class AppColors {
 
     // MARK: Private Properties
 
-    // Имена цветов сгенерированы на сайте https://color-name-generator.com/
+    /// #FF3333, 100%
+    private let warmRed: UIColor = AppColor(rawValue: "#FF3333").get()
 
-    /// #013133, 100%
-    private let submarine: UIColor = AppColor(rawValue: "#013133").get()
+    /// #FF9900, 100%
+    private let darkOrange: UIColor = AppColor(rawValue: "#FF9900").get()
+
+    /// #4F9800, 100%
+    private let avocadoGreen: UIColor = AppColor(rawValue: "#4F9800").get()
+
+    /// #330066, 100%
+    private let persianIndigo: UIColor = AppColor(rawValue: "#330066").get()
+
+    /// #02293E, 100%
+    private let oceanBlue: UIColor = AppColor(rawValue: "#02293E").get()
+
+    /// #999999, 100%
+    private let trafficGray: UIColor = AppColor(rawValue: "#999999").get()
+
+    /// #00617F, 100%
+    private let accentForLight: UIColor = AppColor(rawValue: "#00617F").get()
+
+    /// #37789A, 100%
+    private let accentForDark: UIColor = AppColor(rawValue: "#37789A").get()
 
     /// #FFFFFF, 100%
-    private let white: UIColor = AppColor(rawValue: "#FFFFFF").get()
+    private let backgroundForLight: UIColor = AppColor(rawValue: "#FFFFFF").get()
+
+    /// #012F43, 100%
+    private let backgroundForDark: UIColor = AppColor(rawValue: "#012F43").get()
 
     /// #000000, 100%
-    private let black: UIColor = AppColor(rawValue: "#000000").get()
+    private let elementsForLight: UIColor = AppColor(rawValue: "#000000").get()
 
-    /// #FFAF65, 100%
-    private let lightGray: UIColor = AppColor(rawValue: "#F5F5F5").get()
-
-    /// #2D2D2F, 100%
-    private let midnightGray: UIColor = AppColor(rawValue: "#2D2D2F").get()
-
-    /// #1D1D21, 100%
-    private let satinDeepBlack: UIColor = AppColor(rawValue: "#1D1D21").get()
-
-    /// #EEEDF1, 100%
-    private let crystalBell: UIColor = AppColor(rawValue: "#EEEDF1").get()
-
-    /// #302E36, 100%
-    private let nightBlack: UIColor = AppColor(rawValue: "#302E36").get()
-
-    /// #2C2C33, 100%
-    private let bastille: UIColor = AppColor(rawValue: "#2C2C33").get()
-
-    /// #808092, 100%
-    private let purpletone: UIColor = AppColor(rawValue: "#808092").get()
-
-    /// #848389, 100%
-    private let victorianPewter: UIColor = AppColor(rawValue: "#848389").get()
-
-    /// #BFBFCD, 100%
-    private let gentlemansSuit: UIColor = AppColor(rawValue: "#BFBFCD").get()
-
-    /// #595967, 100%
-    private let gunmetal: UIColor = AppColor(rawValue: "#595967").get()
-
-    /// #EDFF40, 100%
-    private let offYellow: UIColor = AppColor(rawValue: "#EDFF40").get()
-
-    /// #9D61FF, 100%
-    private let irrigoPurple: UIColor = AppColor(rawValue: "#9D61FF").get()
-
-    /// #FF55D4, 100%
-    private let drunkenFlamingo: UIColor = AppColor(rawValue: "#FF55D4").get()
-
-    /// #FA8A8A, 100%
-    private let redMull: UIColor = AppColor(rawValue: "#FA8A8A").get()
-
-    /// #35D13B, 100%
-    private let poisonousPesticide: UIColor = AppColor(rawValue: "#35D13B").get()
-
-    /// #FFAF65, 100%
-    private let orange: UIColor = AppColor(rawValue: "#FFAF65").get()
-
-    /// #C7C7CC, 100%
-    private let centreStage: UIColor = AppColor(rawValue: "#C7C7CC").get()
-
-    /// #C3C3C3, 100%
-    private let weatheredStone: UIColor = AppColor(rawValue: "#C3C3C3").get()
+    /// #FFFFFF, 100%
+    private let elementsForDark: UIColor = AppColor(rawValue: "#FFFFFF").get()
 }
 
 // MARK: Private Functions
@@ -198,22 +121,15 @@ struct AppColors_Previews: PreviewProvider {
     typealias Pair = (String, UIColor)
 
     static let pairs: [Pair] = [
-        ("Background And Surface", AppResources.colors.backgroundAndSurface),
-        ("Transparent Surface", AppResources.colors.transparentSurface),
+        ("Red", AppResources.colors.red),
+        ("Orange", AppResources.colors.orange),
+        ("Green", AppResources.colors.green),
+        ("Indigo", AppResources.colors.indigo),
+        ("Blue", AppResources.colors.blue),
+        ("Gray", AppResources.colors.gray),
+        ("Accent", AppResources.colors.accent),
         ("Background", AppResources.colors.background),
-        ("Main", AppResources.colors.main),
-        ("Black On Accent Backgrounds", AppResources.colors.blackOnAccentBackgrounds),
-        ("White On Accent Backgrounds", AppResources.colors.whiteOnAccentBackgrounds),
-        ("Overlay", AppResources.colors.overlay),
-        ("Second", AppResources.colors.second),
-        ("Transparent Progress", AppResources.colors.transparentProgress),
-        ("Disabled Elements", AppResources.colors.disabledElements),
-        ("Lemon", AppResources.colors.lemon),
-        ("Violet", AppResources.colors.violet),
-        ("Pink", AppResources.colors.pink),
-        ("Error", AppResources.colors.error),
-        ("Success", AppResources.colors.success),
-        ("Attention", AppResources.colors.attention)
+        ("Elements", AppResources.colors.elements)
     ]
 
     static var previews: some View {

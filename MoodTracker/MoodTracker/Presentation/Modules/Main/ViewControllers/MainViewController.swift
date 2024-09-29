@@ -50,7 +50,7 @@ final class MainViewController: UIViewController {
         let view = UIView()
         view.clipsToBounds = true
         view.layer.cornerRadius = Constants.cornerRadius
-        view.backgroundColor = AppResources.colors.lemon
+        view.backgroundColor = AppResources.colors.red
         view.alpha = 0.1
         return view
     }()
@@ -60,7 +60,7 @@ final class MainViewController: UIViewController {
         let view = UIView()
         view.clipsToBounds = true
         view.layer.cornerRadius = Constants.cornerRadius
-        view.backgroundColor = AppResources.colors.pink
+        view.backgroundColor = AppResources.colors.orange
         view.alpha = 0.1
         return view
     }()
@@ -70,7 +70,7 @@ final class MainViewController: UIViewController {
         let view = UIView()
         view.clipsToBounds = true
         view.layer.cornerRadius = Constants.cornerRadius
-        view.backgroundColor = AppResources.colors.violet
+        view.backgroundColor = AppResources.colors.indigo
         view.alpha = 0.1
         return view
     }()
