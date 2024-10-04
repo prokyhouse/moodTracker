@@ -13,7 +13,9 @@ import UIKit
 protocol MainView: AnyObject {
     func setTitle(_ title: String)
 
-    func displaySomething()
+    func displayMoodReports(_ listOfProps: [Design.MoodCell.Props])
+
+    func displayFact(_ props: Design.FactCell.Props)
 }
 
 final class MainViewController: UIViewController {
@@ -23,6 +25,11 @@ final class MainViewController: UIViewController {
 
     // MARK: - Private properties
 
+    private var moodCellsProps: [MoodCell.Props] = []
+    private var factCellProps: FactCell.Props?
+
+    // MARK: - Views
+
     private lazy var navBar: NavigationBar = {
         let navBar = NavigationBar()
         navBar.delegate = self
@@ -30,59 +37,28 @@ final class MainViewController: UIViewController {
         return navBar
     }()
 
-    private let contentView: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = .clear
-        return view
+    private let flowLayout: UICollectionViewFlowLayout = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumInteritemSpacing = 0
+        flowLayout.minimumLineSpacing = 0
+        return flowLayout
     }()
 
-    private let sectionsStackView: UIStackView = {
-        let stackView = UIStackView(frame: .zero)
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        stackView.spacing = 4.0
-        return stackView
-    }()
-
-    // TODO: - Пример. убрать.
-    private lazy var example1SectionView: UIView = {
-        let view = UIView()
-        view.clipsToBounds = true
-        view.layer.cornerRadius = Constants.cornerRadius
-        view.backgroundColor = AppResources.colors.red
-        view.alpha = 0.1
-        return view
-    }()
-
-    // TODO: - Пример. убрать.
-    private lazy var example2SectionView: UIView = {
-        let view = UIView()
-        view.clipsToBounds = true
-        view.layer.cornerRadius = Constants.cornerRadius
-        view.backgroundColor = AppResources.colors.orange
-        view.alpha = 0.1
-        return view
-    }()
-
-    // TODO: - Пример. убрать.
-    private lazy var example3SectionView: UIView = {
-        let view = UIView()
-        view.clipsToBounds = true
-        view.layer.cornerRadius = Constants.cornerRadius
-        view.backgroundColor = AppResources.colors.indigo
-        view.alpha = 0.1
-        return view
-    }()
-
-    // MARK: - Views
-
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView(frame: .zero)
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.alwaysBounceVertical = true
-        return scrollView
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = IntrinsicCollectionView(
+            frame: .zero,
+            collectionViewLayout: flowLayout
+        )
+        collectionView.alwaysBounceVertical = true
+        collectionView.backgroundColor = AppResources.colors.background
+        collectionView.contentInset = UIEdgeInsets(horizontal: Constants.spacing)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.registerCellClass(Design.MoodCell.self)
+        collectionView.registerCellClass(Design.FactCell.self)
+        collectionView.showsHorizontalScrollIndicator = false
+        return collectionView
     }()
 
     // MARK: - Lifecycle
@@ -118,14 +94,7 @@ final class MainViewController: UIViewController {
 
 private extension MainViewController {
     func addSubviews() {
-        view.addSubviews(navBar, scrollView)
-        scrollView.addSubview(contentView)
-        contentView.addSubview(sectionsStackView)
-        sectionsStackView.addArrangedSubviews(
-            example1SectionView,
-            example2SectionView,
-            example3SectionView
-        )
+        view.addSubviews(navBar, collectionView)
 
         view.bringSubviewToFront(navBar)
     }
@@ -133,7 +102,7 @@ private extension MainViewController {
     func setupConstraints() {
         extendedLayoutIncludesOpaqueBars = true
         view.layoutMargins = Constants.innerMargins
-        contentView.layoutMargins = Constants.contentMargins
+        collectionView.layoutMargins = Constants.contentMargins
 
         NSLayoutConstraint.useAndActivateConstraints([
             navBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -141,29 +110,10 @@ private extension MainViewController {
             navBar.topAnchor.constraint(equalTo: view.topAnchor)
         ])
         NSLayoutConstraint.useAndActivateConstraints([
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-        NSLayoutConstraint.useAndActivateConstraints([
-            contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
-        ])
-        NSLayoutConstraint.useAndActivateConstraints([
-            sectionsStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            sectionsStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-            sectionsStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
-            sectionsStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
-        ])
-        // TODO: - Пример. убрать.
-        NSLayoutConstraint.useAndActivateConstraints([
-            example1SectionView.heightAnchor.constraint(equalToConstant: 150),
-            example2SectionView.heightAnchor.constraint(equalToConstant: 400),
-            example3SectionView.heightAnchor.constraint(equalToConstant: 300)
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 
@@ -175,14 +125,14 @@ private extension MainViewController {
         let topInset = navBar.bounds.height - navBar.safeAreaInsets.top
         let bottomInset = tabBarBottomInset()
 
-        let currentTopInset = scrollView.contentInset.top
-        let currentBottomInset = scrollView.contentInset.bottom
+        let currentTopInset = collectionView.contentInset.top
+        let currentBottomInset = collectionView.contentInset.bottom
 
         if currentTopInset != topInset {
-            scrollView.contentInset.top = topInset
+            collectionView.contentInset.top = topInset
         }
         if currentBottomInset != bottomInset {
-            scrollView.contentInset.bottom = bottomInset
+            collectionView.contentInset.bottom = bottomInset
         }
     }
 }
@@ -193,7 +143,82 @@ extension MainViewController: MainView {
     func setTitle(_ title: String) {
         navBar.title = title
     }
-    func displaySomething() { }
+
+    func displayMoodReports(_ listOfProps: [Design.MoodCell.Props]) {
+        moodCellsProps = listOfProps
+        collectionView.isHidden = listOfProps.isEmpty
+        collectionView.reloadData()
+    }
+
+    func displayFact(_ props: FactCell.Props) {
+        factCellProps = props
+        collectionView.reloadData()
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension MainViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        let height = MoodCell.Constants.height
+        let width = UIScreen.main.bounds.width - Constants.spacing * 2
+        return CGSize(width: width, height: height)
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        presenter?.onMoodCellTap(withId: moodCellsProps[indexPath.item].id)
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension MainViewController: UICollectionViewDataSource {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        guard factCellProps != nil else {
+            return moodCellsProps.count
+        }
+        return moodCellsProps.count + 1
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        if let factCellProps = factCellProps, indexPath.item == moodCellsProps.count / 2 {
+            let cell = collectionView.dequeueReusableCell(
+                ofType: Design.FactCell.self,
+                at: indexPath
+            )
+            cell.render(with: factCellProps)
+            return cell
+        }
+
+        let adjustedIndex: Int
+        if factCellProps != nil && indexPath.item > moodCellsProps.count / 2 {
+            adjustedIndex = indexPath.item - 1
+        } else {
+            adjustedIndex = indexPath.item
+        }
+
+        let props = moodCellsProps[adjustedIndex]
+        let cell = collectionView.dequeueReusableCell(
+            ofType: Design.MoodCell.self,
+            at: indexPath
+        )
+        cell.render(with: props)
+        return cell
+    }
 }
 
 // MARK: - NavigationBarDelegate
@@ -209,6 +234,7 @@ extension MainViewController: NavigationBarDelegate {
 
 private extension MainViewController {
     enum Constants {
+        static let spacing: CGFloat = 8.0
         static let cornerRadius: CGFloat = 24.0
         static let horizontalSpacing: CGFloat = 16.0
         static let innerMargins: UIEdgeInsets = .zero
