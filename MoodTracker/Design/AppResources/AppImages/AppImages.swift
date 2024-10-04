@@ -18,4 +18,6 @@ public struct AppImages {
     public let backArrow: AppImage = "backArrow"
     public let close: AppImage = "close"
     public let nextArrow: AppImage = "nextArrow"
+
+    public let calm: AppImage = "calm"
 }

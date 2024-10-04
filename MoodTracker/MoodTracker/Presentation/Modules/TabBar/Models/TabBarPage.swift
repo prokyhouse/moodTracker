@@ -21,6 +21,7 @@ public enum TabBarPage: Int, CaseIterable {
         switch state {
         case .selected:
             return selectedIcon
+
         case .unselected, .disabled:
             return unselectedIcon
         }

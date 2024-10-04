@@ -17,13 +17,13 @@ final class RoundedTabbar: UITabBar {
             guard style != oldValue else { return }
 
             switch style {
-                case .simple:
-                    containerBackgroundView.layer.cornerRadius = .zero
+            case .simple:
+                containerBackgroundView.layer.cornerRadius = .zero
 
-                case .rounded:
-                    containerBackgroundView.layer.cornerRadius = Constants.cornerRadius
-                    containerBackgroundView.setNeedsLayout()
-                    containerBackgroundView.layoutIfNeeded()
+            case .rounded:
+                containerBackgroundView.layer.cornerRadius = Constants.cornerRadius
+                containerBackgroundView.setNeedsLayout()
+                containerBackgroundView.layoutIfNeeded()
             }
         }
     }

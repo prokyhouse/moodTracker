@@ -1,3 +1,5 @@
+// swiftlint:disable:this file_name
+// swiftlint:disable all
 //
 //  EasyDi.swift
 //
@@ -40,29 +42,28 @@ struct WeakSingletonWrapper {
 ///  ```
 ///
 public final class DIContext {
-    
     public static var defaultInstance = DIContext()
     fileprivate var assemblies: [String: Assembly] = [:]
-    
+
     var objectGraphStorage: [String: InjectableObject] = [:]
     var objectGraphStackDepth: Int = 0
     let locker: DIContextLocker
-    
+
     /// All lazy singletons are stored here.
     ///
     /// Dictionary key is **key** parameter from **define** method
     var singletons: [String: InjectableObject] = [:]
     var weakSingletons: [String: WeakSingletonWrapper] = [:]
-    
+
     /// Array of applyed substitutions
     ///
     /// Dictionary key is **key** parameter from **define** method
     var substitutions: [String: UntypedPatchClosure] = [:]
-    
+
     public init(locker: DIContextLocker = NSRecursiveLock()) {
         self.locker = locker
     }
-    
+
     /// This method creates assembly instance based on it's return type.
     ///
     /// - returns: Assembly instance
@@ -74,7 +75,7 @@ public final class DIContext {
         let instance = self.instance(for: AssemblyType.self)
         return castAssemblyInstance(instance, asType: AssemblyType.self)
     }
-    
+
     /// This method creates assembly instance by type
     ///
     /// - parameter assemblyType: Class of the assembly
@@ -86,12 +87,11 @@ public final class DIContext {
     /// ```
     public func instance(for assemblyType: Assembly.Type) -> Assembly {
         locker.lock(); defer { locker.unlock() }
-        
+
         let assemblyClassName = String(reflecting: assemblyType)
         if let existingInstance = self.assemblies[assemblyClassName] {
             return existingInstance
-        }
-        else {
+        } else {
             let newInstance = assemblyType.newInstance()
             newInstance.context = self
             self.assemblies[assemblyClassName] = newInstance
@@ -102,7 +102,6 @@ public final class DIContext {
 
 /// Helper protocol to get Assembly instantiated based on its class
 internal protocol AssemblyInternal {
-    
     /// This method returns instance of assembly class
     ///
     /// - returns: Assembly instance
@@ -116,32 +115,30 @@ internal protocol AssemblyInternal {
 /// Read more here:  [Types of dependency resolution]
 ///
 public enum Scope {
-    
     /// [Prototype]: https://github.com/AndreyZarembo/EasyDi#prototype
     ///
     /// Dependency instance is created each time.
     ///
     /// [Prototype] description contains short example with memory graph illustration
     case prototype
-    
+
     /// [ObjectGraph]: https://github.com/AndreyZarembo/EasyDi#objectgraph
     ///
     /// Dependency instance is created one per object graph.
     ///
     /// [ObjectGraph]  description contains short example with memory graph illustration
     case objectGraph
-    
+
     /// [Singleton]: https://github.com/AndreyZarembo/EasyDi#singleton
     ///
     /// Dependency is created one per assembly. And created only at resosultion, that is why it's lazy
     ///
     /// [Singleton]  description contains short example with memory graph illustration
     case lazySingleton
-    
+
     /// [WeakSingleton]  description contains short example with memory graph illustration
     case weakSingleton
 }
-
 
 /// This is assembly class. It is used to describe dependencies and resolve it.
 ///
@@ -162,29 +159,26 @@ public enum Scope {
 ///
 /// ```
 open class Assembly: AssemblyInternal {
-    
     public internal(set) weak var context: DIContext!
-    
+
     /// This method creates assembly for specified context or default context if no parameters provided
     /// 
     /// - parameter context: DIContext object which assembly should belong to
     ///
     /// - returns: Assembly instance
     public static func instance(from context: DIContext = DIContext.defaultInstance) -> Self {
-        
         let instance = context.instance(for: self)
         return castAssemblyInstance(instance, asType: self)
     }
-    
+
     /// Helper internal method to create assembly
     internal static func newInstance() -> Self {
-        
         return self.init()
     }
-    
+
     /// Initialiser
     public required init() {}
-    
+
     /// This method forces assembly to return result of closure instead of the assembly's dependency.
     ///
     /// It's usefull to stub objects and make A / B testing
@@ -195,21 +189,19 @@ open class Assembly: AssemblyInternal {
     public func addSubstitution<ObjectType: InjectableObject>(
         for simpleDefinitionKey: String,
         with substitutionClosure: @escaping SubstitutionClosure<ObjectType>) {
-        
         let definitionKey = String(reflecting: self).replacingOccurrences(of: ".", with: "") + simpleDefinitionKey
         context.substitutions[definitionKey] = substitutionClosure
     }
-    
+
     /// This method removes substitution from assembly
     ///
     /// - parameter definitionKey: should exactly match method or property name of substituting dependency
     ///
     public func removeSubstitution(for simpleDefinitionKey: String) {
-        
         let definitionKey = String(reflecting: self).replacingOccurrences(of: ".", with: "") + simpleDefinitionKey
         context.substitutions[definitionKey] = nil
     }
-    
+
     /// The method defines return-only placeholder for object.
     ///
     /// Use this method to inject something, created or injected with runtime parameters.
@@ -237,11 +229,10 @@ open class Assembly: AssemblyInternal {
     /// - returns: Injected object from object graph
     ///
     public func definePlaceholder<ObjectType: InjectableObject>(key: String = #function) -> ObjectType {
-        
         let closure: DefinitionClosure<ObjectType>? = nil
         return define(key: key, definitionClosure: closure)
     }
-    
+
     /// This method defines injection into existing object without return
     ///
     /// It can be used to inject dependencies into existing objects.
@@ -280,13 +271,12 @@ open class Assembly: AssemblyInternal {
         scope: Scope = .objectGraph,
         into initClosure: @autoclosure @escaping () -> ObjectType,
         inject injectClosure: ObjectInjectClosure<ObjectType>? = nil ) {
-        
-        let _: ObjectType = define(key: key, definitionKey: definitionKey, scope: scope) { (definition:Definition<ObjectType>) in
+        let _: ObjectType = define(key: key, definitionKey: definitionKey, scope: scope) { (definition: Definition<ObjectType>) in
             definition.initClosure = initClosure
             definition.injectClosure = injectClosure
         }
     }
-    
+
     /// This method defines object, which will be initialized and injected by assembly.
     ///
     /// Syntax:
@@ -327,13 +317,12 @@ open class Assembly: AssemblyInternal {
         scope: Scope = .objectGraph,
         init initClosure: @autoclosure @escaping () -> ObjectType,
         inject injectClosure: ObjectInjectClosure<ObjectType>? = nil ) -> ResultType {
-        
-        return define(key: key, definitionKey: definitionKey, scope: scope) { (definition:Definition<ObjectType>) in
+        return define(key: key, definitionKey: definitionKey, scope: scope) { (definition: Definition<ObjectType>) in
             definition.initClosure = initClosure
             definition.injectClosure = injectClosure
         }
     }
-    
+
     /// Internal method where main injection logic is performed.
     ///
     /// - parameter key: name of the method or property. Default value should be used in most cases
@@ -353,38 +342,33 @@ open class Assembly: AssemblyInternal {
         definitionKey simpleDefinitionKey: String = #function,
         scope: Scope = .objectGraph,
         definitionClosure: DefinitionClosure<ObjectType>? = nil) -> ResultType {
-        
         guard let context = self.context else {
             fatalError("Associated context doesn't exists anymore")
         }
-        
+
         context.locker.lock(); defer { context.locker.unlock() }
-        
+
         // Objects are stored in context by key made of Assembly class name and name of var or method
         let key: String = String(reflecting: self).replacingOccurrences(of: ".", with: "") + simpleKey
         let definitionKey: String = String(reflecting: self).replacingOccurrences(of: ".", with: "") + simpleDefinitionKey
-        
+
         var result: ObjectType
-        
+
         // First of all it checks if there's substitution for this var or method
         if let substitutionClosure = context.substitutions[definitionKey] {
-            
             let substitutionObject = substitutionClosure()
             guard let object = substitutionObject as? ResultType else {
                 fatalError("Expected type: \(ResultType.self), received: \(type(of: substitutionObject))")
             }
             return object
-            
+
             // Next check for existing singletons
         } else if scope == .lazySingleton, let singleton = context.singletons[key] {
-            
             result = singleton as! ObjectType
-            
+
             // And trying to return object from graph
         } else if scope == .weakSingleton, let wrapper = context.weakSingletons[key], let weakSingletion = wrapper.instance {
-            
             result = weakSingletion as! ObjectType
-            
         } else if let objectFromStack = context.objectGraphStorage[key],
             scope != .prototype,
             let unwrappedObject = objectFromStack as? ObjectType {
@@ -393,13 +377,13 @@ open class Assembly: AssemblyInternal {
             // Create Definition object to store injections and dependencies information
             let definition = Definition<ObjectType>()
             definitionClosure?(definition)
-            
+
             context.objectGraphStackDepth += 1
             guard var object = definition.initObject() else {
                 fatalError("Failed to initialize object")
             }
             context.objectGraphStackDepth -= 1
-            
+
             // Object is created. It's stores in the object graph with it's key
             context.objectGraphStorage[key] = object
             // Going deeper to 'stack'.
@@ -407,22 +391,22 @@ open class Assembly: AssemblyInternal {
             context.objectGraphStackDepth += 1
             object = definition.injectObject(object: object)
             context.objectGraphStackDepth -= 1
-            
+
             result = object as! ObjectType
         }
-        
+
         // When recursion is finished, remove all objects from objectGraph
         if context.objectGraphStackDepth == 0 {
             context.objectGraphStorage.removeAll()
         }
-        
+
         // And save singletons
         if scope == .lazySingleton {
             if context.singletons[key] == nil {
                 context.singletons[key] = result
             } else {
                 let current = context.singletons[key] as! ObjectType
-                
+
                 if type(of: current) is AnyClass {
                     if unsafeBitCast(current, to: Int.self) != unsafeBitCast(result, to: Int.self) {
                         let reason = "Singleton already exist, inspect your dependencies graph"
@@ -433,52 +417,48 @@ open class Assembly: AssemblyInternal {
                 }
             }
         }
-        
+
         if context.weakSingletons[key] == nil, scope == .weakSingleton {
             context.weakSingletons[key] = WeakSingletonWrapper(instance: result as AnyObject)
         }
-        
+
         if var wrapper = context.weakSingletons[key], scope == .weakSingleton, wrapper.instance == nil {
             wrapper.instance = result as AnyObject
             context.weakSingletons[key] = wrapper
         }
-        
+
         guard let finalResult = result as? ResultType else {
             fatalError("Failed to build result object. Expected \(ResultType.self) received: \(result)")
         }
-        
+
         return finalResult
     }
 }
 
 /// This is type-erasing protocol used to store definition generics and access them
 internal protocol DefinitionInternal {
-    
     func initObject() -> InjectableObject?
     func injectObject(object: InjectableObject) -> InjectableObject
 }
 
 /// Definition object is used to store initialization and injection closures
 public final class Definition<ObjectType: InjectableObject>: DefinitionInternal {
-    
     public var initClosure: ObjectInitClosure<ObjectType>?
     public var injectClosure: ObjectInjectClosure<ObjectType>?
-    
+
     func initObject() -> InjectableObject? {
-        
         return self.initClosure?()
     }
-    
+
     func injectObject(object: InjectableObject) -> InjectableObject {
-        
         guard let injectableObject = object as? ObjectType else {
             fatalError("Failed to build result object. Expected \(ObjectType.self) received: \(object)")
         }
-        
+
         guard let actualInjectClosure = self.injectClosure else {
             return object
         }
-        
+
         return actualInjectClosure(injectableObject)
     }
 }
@@ -494,3 +474,4 @@ func castAssemblyInstance<T>(_ instance: Any, asType type: T.Type) -> T {
     
     return instance as! T
 }
+// swiftlint:enable all

@@ -5,7 +5,6 @@
 //  Created by Kirill Prokofyev on 22.09.2024.
 //
 
-
 import Common
 import Design
 import Domain
@@ -45,10 +44,6 @@ public final class AppCoordinator: BaseCoordinator<UIWindow> {
         default:
             break
         }
-    }
-
-    override public func coordinatorDidClose(_ coordinator: some Coordinator) {
-        super.coordinatorDidClose(coordinator)
     }
 
     // MARK: - Flows

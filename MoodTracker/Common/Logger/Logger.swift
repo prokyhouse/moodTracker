@@ -5,7 +5,6 @@
 //  Created by Kirill Prokofyev on 22.09.2024.
 //
 
-
 import Foundation
 import os.log
 
@@ -242,6 +241,7 @@ private extension SystemMessageType {
 // MARK: - SystemLogger
 
 private protocol SystemLogger {
+    // swiftlint:disable:next large_tuple
     typealias Parameter = (isSensitive: Bool, key: String, value: String)
 
     func log(
@@ -280,6 +280,7 @@ extension os.Logger: SystemLogger {
 
 @available(iOS 14.0, *)
 private extension os.Logger {
+    // swiftlint:disable:next function_body_length
     func log(
         _ message: String,
         ofType type: OSLogType,

@@ -5,7 +5,6 @@
 //  Created by Kirill Prokofyev on 23.09.2024.
 //
 
-
 import UIKit
 
 open class BaseNavigationCoordinator: BaseCoordinator<UINavigationController> {
