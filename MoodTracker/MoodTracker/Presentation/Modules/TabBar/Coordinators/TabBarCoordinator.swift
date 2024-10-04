@@ -16,26 +16,26 @@ public final class TabBarCoordinator: BaseTabCoordinator {
     public var currentTabBarController: TabBarController? {
         return tabBarController as? TabBarController
     }
-
+    
     // MARK: - Public methods
-
+    
     override public func start() {
         initializeTabBar()
     }
-
+    
     override public func coordinatorDidClose(_ coordinator: some Coordinator) {
         super.coordinatorDidClose(coordinator)
-
+        
         delegate?.coordinatorDidClose(self)
     }
-
+    
     // MARK: - Screens
-
+    
     public func initializeTabBar() {
         let tabControllers: [UINavigationController] = makeAndStartTabs()
         setupTabBar(with: tabControllers)
     }
-
+    
     public func updateTabBar() {
         guard
             let tabBarController = currentTabBarController
@@ -65,13 +65,13 @@ private extension TabBarCoordinator {
             tabBar.setItems(tabs)
         }
     }
-
+    
     func makeAndStartTabs() -> [UINavigationController] {
         var tabControllers: [UINavigationController] = []
-
+        
         for tab in TabBarPage.allCases {
             let controller: UINavigationController
-
+            
             switch tab {
             case .main:
                 controller = makeAndStartMainTabController()
@@ -79,14 +79,14 @@ private extension TabBarCoordinator {
             case .statistics:
                 controller = makeAndStartStatisticsTabController()
             }
-
+            
             controller.setNavigationBarHidden(true, animated: false)
             tabControllers.append(controller)
         }
-
+        
         return tabControllers
     }
-
+    
     func makeAndStartMainTabController() -> UINavigationController {
         let navigationController = UINavigationController()
         let coordinator = MainCoordinator(navigationController: navigationController)

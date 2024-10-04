@@ -15,7 +15,7 @@ public enum TabBarPage: Int, CaseIterable {
     public func getTitle() -> String {
         return title
     }
-
+    
     public func getIcon(for state: TabBarPageState) -> UIImage {
         switch state {
         case .selected:
@@ -38,7 +38,7 @@ private extension TabBarPage {
             return "Статистика"
         }
     }
-
+    
     var unselectedIcon: UIImage {
         switch self {
         case .main:
@@ -48,7 +48,7 @@ private extension TabBarPage {
             return AppResources.images.chart.get()
         }
     }
-
+    
     var selectedIcon: UIImage {
         switch self {
         case .main:
