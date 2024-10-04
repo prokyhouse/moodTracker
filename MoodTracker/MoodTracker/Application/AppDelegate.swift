@@ -12,14 +12,12 @@ import UIKit
 
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate, CoreDataServiceDelegate {
-    
     // MARK: - UIApplicationDelegate
-    
+
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        
         // MARK: Database
         let coreDataService = CoreDataService.shared
         coreDataService.delegate = self
@@ -28,21 +26,21 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, CoreDataServiceDele
             case .failed:
                 // Тут БД разрушена, лучше бы не ходить дальше.
                 break
-                
+
             case .success:
                 // БД настроена без проблем.
                 break
-                
+
             @unknown default:
                 assertionFailure()
             }
         }
-        
+
         return true
     }
-    
+
     // MARK: UISceneSession Lifecycle
-    
+
     func application(
         _ application: UIApplication,
         configurationForConnecting connectingSceneSession: UISceneSession,

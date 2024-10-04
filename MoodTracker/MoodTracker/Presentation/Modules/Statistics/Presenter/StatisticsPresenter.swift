@@ -5,14 +5,13 @@
 //  Created by Виталий Вишняков on 01.10.2024.
 //
 
-
 import Common
 import Design
 import Domain
 import UIKit
 
 protocol StatisticsPresenter: AnyObject {
-   
+    func onViewDidLoad()
 }
 
 final class StatisticsViewPresenter {
@@ -35,9 +34,19 @@ final class StatisticsViewPresenter {
 // MARK: - StatisticsPresenter
 
 extension StatisticsViewPresenter: StatisticsPresenter {
-  
+    func onViewDidLoad() {
+        view.setTitle(Constants.L10n.title)
+        view.setNote(Constants.L10n.note)
+    }
 }
 
 // MARK: - Private Methods
 
-private extension StatisticsViewPresenter { }
+private extension StatisticsViewPresenter {
+    enum Constants {
+        enum L10n {
+            static let title: String = "Статистика"
+            static let note: String = "По статистике, в этом месяце было больше хороших дней, чем плохих. Так держать!"
+        }
+    }
+}

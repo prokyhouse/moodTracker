@@ -11,12 +11,11 @@ import UIKit
 public enum TabBarPage: Int, CaseIterable {
     case main = 0
     case statistics = 1
-    
-    
+
     public func getTitle() -> String {
         return title
     }
-    
+
     public func getIcon(for state: TabBarPageState) -> UIImage {
         switch state {
         case .selected:
@@ -39,20 +38,22 @@ private extension TabBarPage {
             return "Статистика"
         }
     }
-    
+
     var unselectedIcon: UIImage {
         switch self {
         case .main:
             return AppResources.images.home.get()
+
         case .statistics:
             return AppResources.images.chart.get()
         }
     }
-    
+
     var selectedIcon: UIImage {
         switch self {
         case .main:
             return AppResources.images.homeFill.get()
+
         case .statistics:
             return AppResources.images.chartFill.get()
         }
