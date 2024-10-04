@@ -49,8 +49,6 @@ public final class TabBarCoordinator: BaseTabCoordinator {
             return
         }
 
-        let tabs: [TabBarPage] = [ .main ]
-
         tabBarController.updateTabBar()
     }
 }
@@ -75,8 +73,8 @@ private extension TabBarCoordinator {
             let controller: UINavigationController
 
             switch tab {
-                case .main:
-                    controller = makeAndStartMainTabController()
+            case .main:
+                controller = makeAndStartMainTabController()
             }
 
             controller.setNavigationBarHidden(true, animated: false)

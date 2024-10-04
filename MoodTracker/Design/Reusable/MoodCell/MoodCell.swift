@@ -74,7 +74,6 @@ public final class MoodCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    
 
     // MARK: - Lifecycle
 
@@ -118,21 +117,21 @@ private extension MoodCell {
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.spacing),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.spacing),
             titleLabel.trailingAnchor.constraint(equalTo: moodImageView.leadingAnchor, constant: -Constants.spacing),
-            titleLabel.bottomAnchor.constraint(equalTo: captionStackView.topAnchor, constant: -2.0),
+            titleLabel.bottomAnchor.constraint(equalTo: captionStackView.topAnchor, constant: -2.0)
         ])
         NSLayoutConstraint.useAndActivateConstraints([
             captionStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.spacing),
-            captionStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.spacing),
+            captionStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.spacing)
         ])
         NSLayoutConstraint.useAndActivateConstraints([
             moodImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.spacing),
             moodImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.spacing),
             moodImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.spacing),
-            moodImageView.widthAnchor.constraint(equalTo: moodImageView.heightAnchor),
+            moodImageView.widthAnchor.constraint(equalTo: moodImageView.heightAnchor)
         ])
         NSLayoutConstraint.useAndActivateConstraints([
             contentView.heightAnchor.constraint(equalToConstant: Constants.height),
-            contentView.widthAnchor.constraint(equalTo: widthAnchor),
+            contentView.widthAnchor.constraint(equalTo: widthAnchor)
         ])
     }
 

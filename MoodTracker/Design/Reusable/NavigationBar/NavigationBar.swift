@@ -5,7 +5,6 @@
 //  Created by Kirill Prokofyev on 23.09.2024.
 //
 
-
 import Common
 import UIKit
 
@@ -81,10 +80,12 @@ open class NavigationBar: BaseNavigationBar {
 
     // MARK: - Private Properties
 
+    // swiftlint:disable implicitly_unwrapped_optional
     private var backButtonHeight: NSLayoutConstraint!
     private var backButtonWidth: NSLayoutConstraint!
     private var rightButtonHeight: NSLayoutConstraint!
     private var rightButtonWidth: NSLayoutConstraint!
+    // swiftlint:enable implicitly_unwrapped_optional
 
     private lazy var backButton: UIButton = {
         let resources = AppResources.images

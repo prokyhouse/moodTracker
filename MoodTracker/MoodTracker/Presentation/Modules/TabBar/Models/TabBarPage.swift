@@ -17,11 +17,11 @@ public enum TabBarPage: Int, CaseIterable {
 
     public func getIcon(for state: TabBarPageState) -> UIImage {
         switch state {
-            case .selected:
-                return selectedIcon
+        case .selected:
+            return selectedIcon
 
-            case .unselected, .disabled:
-                return unselectedIcon
+        case .unselected, .disabled:
+            return unselectedIcon
         }
     }
 }
@@ -31,22 +31,22 @@ public enum TabBarPage: Int, CaseIterable {
 private extension TabBarPage {
     var title: String {
         switch self {
-            case .main:
-                return "Главная"
+        case .main:
+            return "Главная"
         }
     }
 
     var unselectedIcon: UIImage {
         switch self {
-            case .main:
-                return AppResources.images.home.get()
+        case .main:
+            return AppResources.images.home.get()
         }
     }
 
     var selectedIcon: UIImage {
         switch self {
-            case .main:
-                return AppResources.images.homeFill.get()
+        case .main:
+            return AppResources.images.homeFill.get()
         }
     }
 }

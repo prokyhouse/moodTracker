@@ -5,7 +5,6 @@
 //  Created by Kirill Prokofyev on 22.09.2024.
 //
 
-
 import Common
 import Design
 import Domain
@@ -56,10 +55,10 @@ extension MainViewPresenter: MainPresenter {
     func onViewDidAppear() { }
 
     func onMoodCellTap(withId id: UUID) {
-        //TODO: Добавить переход на детальный экран
+        // TODO: Добавить переход на детальный экран
     }
 
-    //TODO: Добавить бизнес-логику
+    // TODO: Добавить бизнес-логику
     func displayMocks() {
         view.displayMoodReports(
             [
@@ -83,7 +82,7 @@ extension MainViewPresenter: MainPresenter {
                     caption: "Позавчера, 24 сентября",
                     moodImage: AppResources.images.calm.get(),
                     color: AppResources.colors.green
-                ),
+                )
             ]
         )
 

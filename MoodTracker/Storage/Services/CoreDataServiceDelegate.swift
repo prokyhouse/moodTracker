@@ -5,7 +5,6 @@
 //  Created by Kirill Prokofyev on 22.09.2024.
 //
 
-
 import Common
 import CoreData
 import Foundation
@@ -18,7 +17,9 @@ public class CoreDataService {
 
     private let storeType: String
 
+    // swiftlint:disable implicitly_unwrapped_optional
     private(set) var persistentContainer: PersistentContainer!
+    // swiftlint:enable implicitly_unwrapped_optional
 
     public weak var delegate: CoreDataServiceDelegate?
 

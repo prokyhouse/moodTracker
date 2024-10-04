@@ -102,7 +102,7 @@ private extension FactCell {
             contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.spacing),
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.spacing),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.spacing),
-            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.spacing),
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.spacing)
         ])
     }
 

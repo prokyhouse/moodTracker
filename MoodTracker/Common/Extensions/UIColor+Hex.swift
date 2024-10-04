@@ -5,7 +5,6 @@
 //  Created by Kirill Prokofyev on 22.09.2024.
 //
 
-
 import UIKit
 
 public extension UIColor {

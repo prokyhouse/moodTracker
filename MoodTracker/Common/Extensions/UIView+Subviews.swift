@@ -5,7 +5,6 @@
 //  Created by Kirill Prokofyev on 23.09.2024.
 //
 
-
 import UIKit
 
 public extension UIView {
@@ -27,4 +26,3 @@ public extension UIStackView {
         views.forEach { self.addArrangedSubview($0) }
     }
 }
-
