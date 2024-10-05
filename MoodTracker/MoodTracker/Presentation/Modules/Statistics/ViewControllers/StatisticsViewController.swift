@@ -76,14 +76,16 @@ private extension StatisticsViewController {
         ])
         
         statisticsDataViewController.didMove(toParent: self)
-        // TODO: Refactor to real data
+        // TODO: Заменить на реальный данные в MT-11
         statisticsDataViewModel.setupData(
             factText: "По статистике, в этом месяце было больше хороших дней, чем плохих. Так держать!",
             moodsScores: [1, 2, 3, 4, 5, 4, 5, 4, 2, 3, 1, 2, 3, 4, 5, 4, 5, 4, 2, 3, 1, 2, 3, 4, 4, 4, 5, 4, 2, 3]
                 .enumerated()
                 .map {
-                    MoodNote(position: $0.offset, score: $0.element)
-                }
+                    MoodNoteViewItem(position: $0.offset, score: $0.element)
+                },
+            segments: ["Месяц", "Неделя"],
+            date: "1 сентября - 30 сентября"
         )
     }
     
