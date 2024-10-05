@@ -26,16 +26,11 @@ final class StatisticsViewController: UIViewController {
         return navBar
     }()
     
-    private lazy var segmentedControl: UISegmentedControl = {
-        let segmentedControl = UISegmentedControl(items: [Constants.L10n.monthPage, Constants.L10n.weekPage])
-        segmentedControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
-        segmentedControl.selectedSegmentIndex = .zero
-        return segmentedControl
-    }()
-    
-    private var chartViewModel = ChartViewModel()
-    private lazy var chartViewController = UIHostingController(rootView: ChartView(chartViewModel: chartViewModel))
-    private lazy var chartView = chartViewController.view!
+    private var statisticsDataViewModel = StatisticsDataViewModel()
+    private lazy var statisticsDataViewController = UIHostingController(
+        rootView: StatisticsDataView(statisticsDataViewModel: statisticsDataViewModel)
+    )
+    private lazy var statisticsDataView = statisticsDataViewController.view!
     
     var presenter: StatisticsPresenter?
     
@@ -58,8 +53,8 @@ final class StatisticsViewController: UIViewController {
 
 private extension StatisticsViewController {
     func addSubviews() {
-        addChild(chartViewController)
-        view.addSubviews(navBar, segmentedControl, chartView)
+        addChild(statisticsDataViewController)
+        view.addSubviews(navBar, statisticsDataView)
         
         view.bringSubviewToFront(navBar)
     }
@@ -73,54 +68,27 @@ private extension StatisticsViewController {
             navBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             navBar.topAnchor.constraint(equalTo: view.topAnchor)
         ])
-        
+
         NSLayoutConstraint.useAndActivateConstraints([
-            segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            segmentedControl.topAnchor.constraint(equalTo: navBar.bottomAnchor)
+            statisticsDataView.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 8),
+            statisticsDataView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            statisticsDataView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
         
-        NSLayoutConstraint.useAndActivateConstraints([
-            chartView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 24),
-            chartView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            chartView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-        ])
-        
-        chartViewController.didMove(toParent: self)
+        statisticsDataViewController.didMove(toParent: self)
         // TODO: Refactor to real data
-        chartViewModel.moodsScores = [1,2,3,4,4,4,5,4,2,3,5,1,5,2,3,5,4,1,2,4,1,5,1,5,4,2,3,5,1,5,2,3,5,]
-            .enumerated()
-            .map {
-                MoodNote(position: $0.offset, score: $0.element)
-            }
+        statisticsDataViewModel.setupData(
+            factText: "По статистике, в этом месяце было больше хороших дней, чем плохих. Так держать!",
+            moodsScores: [1, 2, 3, 4, 5, 4, 5, 4, 2, 3, 1, 2, 3, 4, 5, 4, 5, 4, 2, 3, 1, 2, 3, 4, 4, 4, 5, 4, 2, 3]
+                .enumerated()
+                .map {
+                    MoodNote(position: $0.offset, score: $0.element)
+                }
+        )
     }
     
     func setupViews() {
         view.backgroundColor = AppResources.colors.background
-    }
-    
-    @objc
-    func segmentChanged(_ segmentedControl: UISegmentedControl) {
-        switch (segmentedControl.selectedSegmentIndex) {
-        case 0:
-            // TODO: Refactor to real data
-            chartViewModel.moodsScores = [1,2,3,4,4,4,5,4,2,3,5,1,5,2,3,5,4,1,2,4,1,5,1,5,4,2,3,5,1,5,2,3,5,]
-                .enumerated()
-                .map {
-                    MoodNote(position: $0.offset, score: $0.element)
-                }
-            
-        case 1:
-            // TODO: Refactor to real data
-            chartViewModel.moodsScores = [4,1,2,4,1,5,1]
-                .enumerated()
-                .map {
-                    MoodNote(position: $0.offset, score: $0.element)
-                }
-            
-        default:
-            break
-        }
     }
 }
 
@@ -150,10 +118,4 @@ extension StatisticsViewController: NavigationBarDelegate {
 // MARK: - Constants
 
 private extension StatisticsViewController {
-    enum Constants {
-        enum L10n {
-            static let monthPage: String = "Месяц"
-            static let weekPage: String = "Неделя"
-        }
-    }
 }
