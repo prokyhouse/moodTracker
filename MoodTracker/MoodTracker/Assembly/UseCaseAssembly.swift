@@ -19,7 +19,7 @@ public final class UseCaseAssembly: Assembly {
     public var statisticsUseCase: StatisticsUseCase {
         define(
             scope: .lazySingleton,
-            init: StatisticsUseCase(storageService: self.serviceAssembly.storageService)
+            init: StatisticsUseCaseImpl(storageService: self.serviceAssembly.storageService)
         )
     }
 }
