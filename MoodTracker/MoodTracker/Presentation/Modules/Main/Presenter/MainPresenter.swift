@@ -9,6 +9,7 @@ import Common
 import Design
 import Domain
 import UIKit
+import Storage
 
 protocol MainPresenter: AnyObject {
     /// Обработка входа на экран.

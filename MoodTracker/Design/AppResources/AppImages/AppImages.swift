@@ -20,4 +20,6 @@ public struct AppImages {
     public let nextArrow: AppImage = "nextArrow"
 
     public let calm: AppImage = "calm"
+    
+    public let search: AppImage = "search"
 }

@@ -7,6 +7,7 @@
 
 import Common
 import Foundation
+import Domain
 
 public final class UseCaseAssembly: Assembly {
     // MARK: - Private Properties
@@ -15,13 +16,10 @@ public final class UseCaseAssembly: Assembly {
 
     // MARK: - Public Properties
 
-//    public var sessionUseCase: Domain.SessionUseCase {
-//        define(
-//            scope: .lazySingleton,
-//            init: SessionUseCaseImpl(
-//                sessionService: self.serviceAssembly.sessionService
-//            )
-//        )
-//    }
-
+    public var statisticsUseCase: StatisticsUseCase {
+        define(
+            scope: .lazySingleton,
+            init: StatisticsUseCaseImpl(storageService: self.serviceAssembly.storageService)
+        )
+    }
 }
