@@ -8,6 +8,7 @@
 import Common
 import Domain
 import Foundation
+import Storage
 
 final class StatisticsAssembly: Assembly {
     // MARK: - Private Properties
@@ -21,7 +22,11 @@ final class StatisticsAssembly: Assembly {
         coordinator: StatisticsCoordinator
     ) -> StatisticsViewController {
         return define(scope: .prototype, init: StatisticsViewController()) { view in
-            view.presenter = self.assemblePresenter(view: view, coordinator: coordinator)
+            view.presenter = self.assemblePresenter(
+                view: view,
+                coordinator: coordinator,
+                storage: self.serviceAssembly.storageService
+            )
             return view
         }
     }
@@ -30,12 +35,13 @@ final class StatisticsAssembly: Assembly {
 // MARK: Private Methods
 
 private extension StatisticsAssembly {
-    func assemblePresenter(view: StatisticsView, coordinator: StatisticsCoordinator) -> StatisticsPresenter {
+    func assemblePresenter(view: StatisticsView, coordinator: StatisticsCoordinator, storage: CoreDataService) -> StatisticsPresenter {
         return define(
             scope: .prototype,
             init: StatisticsViewPresenter(
                 view: view,
-                coordinator: coordinator
+                coordinator: coordinator,
+                storage: storage
             )
         )
     }

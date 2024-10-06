@@ -7,15 +7,15 @@
 
 import Common
 import Foundation
+import Storage
 
 public final class ServiceAssembly: Assembly {
     // MARK: Public Properties
 
-//    public var profileService: Domain.ProfileService {
-//        define(
-//            scope: .lazySingleton,
-//            init: ProfileServiceImpl(networkService: self.networkService)
-//        )
-//    }
-
+    public var storageService: CoreDataService {
+        define(
+            scope: .lazySingleton,
+            init: CoreDataService()
+        )
+    }
 }

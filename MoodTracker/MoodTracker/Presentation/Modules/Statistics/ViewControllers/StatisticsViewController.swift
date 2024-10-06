@@ -12,8 +12,14 @@ import SwiftUI
 
 protocol StatisticsView: AnyObject {
     func setTitle(_ title: String)
-    func setNote(_ note: String)
-    func setChart()
+    func setStatisticView(
+        factText: String,
+        moodsScores: [MoodNoteViewItem],
+        segments: [String],
+        date: String,
+        moodDistribution: [MoodDistributionViewItem],
+        onSelectedSegmentChanged: @escaping (String) -> Void
+    )
 }
 
 final class StatisticsViewController: UIViewController {
@@ -47,6 +53,12 @@ final class StatisticsViewController: UIViewController {
         
         presenter?.onViewDidLoad()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        presenter?.onViewVillAppear()
+    }
 }
 
 // MARK: - Private methods
@@ -76,17 +88,6 @@ private extension StatisticsViewController {
         ])
         
         statisticsDataViewController.didMove(toParent: self)
-        // TODO: Заменить на реальный данные в MT-11
-        statisticsDataViewModel.setupData(
-            factText: "По статистике, в этом месяце было больше хороших дней, чем плохих. Так держать!",
-            moodsScores: [1, 2, 3, 4, 5, 4, 5, 4, 2, 3, 1, 2, 3, 4, 5, 4, 5, 4, 2, 3, 1, 2, 3, 4, 4, 4, 5, 4, 2, 3]
-                .enumerated()
-                .map {
-                    MoodNoteViewItem(position: $0.offset, score: $0.element)
-                },
-            segments: ["Месяц", "Неделя"],
-            date: "1 сентября - 30 сентября"
-        )
     }
     
     func setupViews() {
@@ -97,14 +98,26 @@ private extension StatisticsViewController {
 // MARK: - StatisticsView
 
 extension StatisticsViewController: StatisticsView {
+    func setStatisticView(
+        factText: String,
+        moodsScores: [MoodNoteViewItem],
+        segments: [String],
+        date: String,
+        moodDistribution: [MoodDistributionViewItem],
+        onSelectedSegmentChanged: @escaping (String) -> Void
+    ) {
+        statisticsDataViewModel.setupData(
+            factText: factText,
+            moodsScores: moodsScores,
+            segments: segments,
+            date: date,
+            moodDistribution: moodDistribution,
+            onSelectedSegmentChanged: onSelectedSegmentChanged
+        )
+    }
+    
     func setTitle(_ title: String) {
         navBar.title = title
-    }
-    
-    func setChart() {
-    }
-    
-    func setNote(_ note: String) {
     }
 }
 

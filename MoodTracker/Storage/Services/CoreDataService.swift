@@ -14,15 +14,15 @@ public final class CoreDataService {
         static let idFilter = "id == %@"
     }
     
-    public static let shared = CoreDataService()
-    
     var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: Constants.PersistentContainerName)
         container.loadPersistentStores(completionHandler: { _, _ in })
         return container
     }()
     
-    init() {}
+    public init() {
+        
+    }
     
     // Стягиваем всегда последний месяц, забираем последние 7 записей если нужна неделя
     public func fetchLastMonthNotes() -> [MoodNote] {
