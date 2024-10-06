@@ -25,7 +25,7 @@ final class StatisticsAssembly: Assembly {
             view.presenter = self.assemblePresenter(
                 view: view,
                 coordinator: coordinator,
-                storage: self.serviceAssembly.storageService
+                statisticsUseCase: self.useCaseAssembly.statisticsUseCase
             )
             return view
         }
@@ -35,13 +35,17 @@ final class StatisticsAssembly: Assembly {
 // MARK: Private Methods
 
 private extension StatisticsAssembly {
-    func assemblePresenter(view: StatisticsView, coordinator: StatisticsCoordinator, storage: CoreDataService) -> StatisticsPresenter {
+    func assemblePresenter(
+        view: StatisticsView,
+        coordinator: StatisticsCoordinator,
+        statisticsUseCase: StatisticsUseCase
+    ) -> StatisticsPresenter {
         return define(
             scope: .prototype,
             init: StatisticsViewPresenter(
                 view: view,
                 coordinator: coordinator,
-                storage: storage
+                statisticsUseCase: statisticsUseCase
             )
         )
     }
