@@ -7,13 +7,10 @@
 import SwiftUI
 
 class StatisticsDataViewModel: ObservableObject {
-    private enum Constants {
-        static let initialSelectedSegment = "Месяц"
-    }
     
     @Published var moodsScores: [MoodNoteViewItem] = []
     @Published var factText: String = ""
-    @Published var selectedSegment: String = Constants.initialSelectedSegment {
+    @Published var selectedSegment: String = "Месяц" {
         didSet { onSelectedSegmentChanged?(selectedSegment) }
     }
     @Published var segments: [String] = []

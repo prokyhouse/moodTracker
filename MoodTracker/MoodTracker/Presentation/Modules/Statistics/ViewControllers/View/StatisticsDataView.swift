@@ -38,8 +38,10 @@ struct StatisticsDataView: View {
     private enum Constants {
         static let chartWidth: CGFloat = 318
         static let chartHeight: CGFloat = 135
-        static let oneWeek = 7
         static let horizontalPadding: CGFloat = 16
+        static let bottomPadding: CGFloat = 24
+        static let imageSide: CGFloat = 48
+        static let factCornerRadius: CGFloat = 20
     }
     
     @ObservedObject var statisticsDataViewModel: StatisticsDataViewModel
@@ -52,7 +54,7 @@ struct StatisticsDataView: View {
                 }
             }
             .pickerStyle(.segmented)
-            .padding(.bottom, 24)
+            .padding(.bottom, Constants.bottomPadding)
             
             Chart {
                 ForEach(statisticsDataViewModel.moodsScores) { mood in
@@ -60,12 +62,12 @@ struct StatisticsDataView: View {
                         x: .value("", mood.position),
                         y: .value("", mood.score),
                         width: (
-                            statisticsDataViewModel.moodsScores.count <= Constants.oneWeek
+                            statisticsDataViewModel.selectedSegment == statisticsDataViewModel.segments[1]
                             ? .fixed(16.0)
                             : .automatic
                         )
                     )
-                    .foregroundStyle(getColor(mood.score))
+                    .foregroundStyle(getMoodLevelAssociatedColor(mood.score))
                     .cornerRadius(4)
                 }
             }
@@ -73,7 +75,7 @@ struct StatisticsDataView: View {
             .chartXScale(domain: .zero ... max(statisticsDataViewModel.moodsScores.count - 1, 1))
             .chartYAxis(.hidden)
             .chartXAxis(.hidden)
-            .padding(.bottom, 24)
+            .padding(.bottom, Constants.bottomPadding)
             
             HStack(alignment: .bottom, spacing: 16) {
                 Text(statisticsDataViewModel.factText)
@@ -82,16 +84,16 @@ struct StatisticsDataView: View {
                     .padding(16)
                     .overlay {
                         UnevenRoundedRectangle(
-                            topLeadingRadius: 20,
-                            bottomLeadingRadius: 20,
-                            bottomTrailingRadius: 0,
-                            topTrailingRadius: 20
+                            topLeadingRadius: Constants.factCornerRadius,
+                            bottomLeadingRadius: Constants.factCornerRadius,
+                            bottomTrailingRadius: .zero,
+                            topTrailingRadius: Constants.factCornerRadius
                         )
                         .stroke(style: StrokeStyle(lineWidth: 1, dash: [2, 2]))
                     }
                 
                 Image(uiImage: AppResources.images.search.get())
-                    .frame(width: 48, height: 48)
+                    .frame(width: Constants.imageSide, height: Constants.imageSide)
             }
             
             HStack {
@@ -105,7 +107,7 @@ struct StatisticsDataView: View {
             
             HStack(spacing: .zero) {
                 ForEach(statisticsDataViewModel.moodDistribution) {
-                    getColor($0.score)
+                    getMoodLevelAssociatedColor($0.score)
                         .frame(
                             width: (UIScreen.main.bounds.width - Constants.horizontalPadding * 2)
                             * (CGFloat($0.totalFrequent) / CGFloat(max(statisticsDataViewModel.moodsScores.count, 1)))
@@ -130,7 +132,7 @@ struct StatisticsDataView: View {
                         .foregroundStyle(Color(uiColor: AppResources.colors.elements))
                         .font(Font(AppResources.fonts.styles.caption))
                         Circle()
-                            .fill(getColor(distribution.score))
+                            .fill(getMoodLevelAssociatedColor(distribution.score))
                             .frame(width: 7, height: 7)
                             .padding(.leading, 4)
                     }
@@ -142,7 +144,7 @@ struct StatisticsDataView: View {
         .animation(.smooth, value: statisticsDataViewModel.moodsScores)
     }
     
-    private func getColor(_ index: Int) -> Color {
+    private func getMoodLevelAssociatedColor(_ index: Int) -> Color {
         switch index {
         case 5:
             return Color(uiColor: AppResources.colors.red)

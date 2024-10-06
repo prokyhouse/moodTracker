@@ -67,6 +67,7 @@ private extension StatisticsViewController {
     func addSubviews() {
         addChild(statisticsDataViewController)
         view.addSubviews(navBar, statisticsDataView)
+        statisticsDataViewController.didMove(toParent: self)
         
         view.bringSubviewToFront(navBar)
     }
@@ -86,8 +87,6 @@ private extension StatisticsViewController {
             statisticsDataView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             statisticsDataView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
-        
-        statisticsDataViewController.didMove(toParent: self)
     }
     
     func setupViews() {

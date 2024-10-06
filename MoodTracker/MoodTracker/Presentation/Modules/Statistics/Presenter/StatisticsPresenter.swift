@@ -25,7 +25,7 @@ final class StatisticsViewPresenter {
     
     private var moodDistribution: [MoodDistributionViewItem] = []
     private var moodsScores: [MoodNoteViewItem] = []
-    private var dateRange: String = ""
+    private var dateRange = ""
     private var lastSelectedSegment = ""
     
     private var allMoodNotes: [MoodNote] = []
