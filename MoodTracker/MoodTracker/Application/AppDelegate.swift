@@ -11,7 +11,7 @@ import Storage
 import UIKit
 
 @main
-final class AppDelegate: UIResponder, UIApplicationDelegate, CoreDataServiceDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - UIApplicationDelegate
     
@@ -19,25 +19,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, CoreDataServiceDele
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        
-        // MARK: Database
-        let coreDataService = CoreDataService.shared
-        coreDataService.delegate = self
-        coreDataService.setup { result in
-            switch result {
-            case .failed:
-                // Тут БД разрушена, лучше бы не ходить дальше.
-                break
-
-            case .success:
-                // БД настроена без проблем.
-                break
-
-            @unknown default:
-                assertionFailure()
-            }
-        }
-        
         return true
     }
     
