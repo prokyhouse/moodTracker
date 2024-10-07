@@ -9,3 +9,7 @@
 <img src="https://github.com/prokyhouse/moodTracker/blob/develop/Resources/demo_1.png" alt="drawing"/>
 
 <img src="https://github.com/prokyhouse/moodTracker/blob/develop/Resources/demo_2.png" alt="drawing"/>
+
+## Tech Overview
+
+[Инструкция как запустить проект](./GET_STARTED.md)
