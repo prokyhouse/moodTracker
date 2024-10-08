@@ -38,9 +38,13 @@
 
  ### 4.1. На симуляторе
  Перед запуском, нужно убедиться, что в верхней панели выбран симулятор. Если нет, то выбираем любой доступный.
+ 
+ <img title="Choose simulator" alt="Choose simulator" src="https://s455vlx.storage.yandex.net/rdisk/5160614d04a6c775c2d58ba92e0eedb6c58d860766bd8516b957dab2391262df/6703e574/fKqInKw3d7bLFOeFnMGnhHgYT_MFZyXXSX2ydLEPrX3AohezMOe8qB013CLwvOvVnE8l25W8k77U5M4qttOT7DuSEcCJLwSVKcsTYeAgWwSr8npumZHI4midPdWhecNq?uid=1130000067515093&filename=choose_device.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000067515093&fsize=485042&hid=74ef2b660a4cf3b9d144d17cd498bad3&media_type=image&tknv=v2&etag=399cc1e86a84bde1e91b0253caf5fb83&ts=623e333ed4500&s=f1a8c666bf0984e08ef170238cef67e8c4cfb6fdaff48e18d7375bf4605a1b36&pb=U2FsdGVkX18BIX_Hb-icyY6dKLCAG1eVv9tYSExTgOYLNrwSWDVPGLny4u6PGD5hTJBFjQaR18CVUtXV1HgXNts9PRGmzii6Il8Dpn6OCjKyCXISYqXIbFxiPin43MaA">
+
  > [!TIP]
  > Если в списке нет доступных симуляторов, дополнительно нужно загрузить, предложенную IDE, версию iOS.
- <img title="Choose simulator" alt="Choose simulator" src="https://s455vlx.storage.yandex.net/rdisk/5160614d04a6c775c2d58ba92e0eedb6c58d860766bd8516b957dab2391262df/6703e574/fKqInKw3d7bLFOeFnMGnhHgYT_MFZyXXSX2ydLEPrX3AohezMOe8qB013CLwvOvVnE8l25W8k77U5M4qttOT7DuSEcCJLwSVKcsTYeAgWwSr8npumZHI4midPdWhecNq?uid=1130000067515093&filename=choose_device.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000067515093&fsize=485042&hid=74ef2b660a4cf3b9d144d17cd498bad3&media_type=image&tknv=v2&etag=399cc1e86a84bde1e91b0253caf5fb83&ts=623e333ed4500&s=f1a8c666bf0984e08ef170238cef67e8c4cfb6fdaff48e18d7375bf4605a1b36&pb=U2FsdGVkX18BIX_Hb-icyY6dKLCAG1eVv9tYSExTgOYLNrwSWDVPGLny4u6PGD5hTJBFjQaR18CVUtXV1HgXNts9PRGmzii6Il8Dpn6OCjKyCXISYqXIbFxiPin43MaA">
+
+ <img title="Download simulator" alt="Download simulator" src="https://s326sas.storage.yandex.net/rdisk/a3c6611b5fdfd09526f9794ceb3ba69512797aca9d4aafbff0ecafb92657cdca/67053819/fKqInKw3d7bLFOeFnMGnhMQa7Y_WoYtXYNd94HoCIn8goREIuTKe4GXRmPPUNQ3zLXTnO9xuwckokLwhRPH0A3_p47dw1rPJh4MbO5PZrv-r8npumZHI4midPdWhecNq?uid=1130000067515093&filename=download.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000067515093&fsize=91729&hid=1cbd3e4e5b91bfcd0fabeeaf394293d8&media_type=image&tknv=v2&etag=9bb99acc84fd65bd591c040042e07f18&ts=623f7633b7840&s=6ed0c092b1e6d1e852df11ab5c02993b0fc2fa43aa6c1b4c9d4e55dbf8fbbb6f&pb=U2FsdGVkX19f9PFmNxCRFJeax_BDuYbdFShdINzvLbeRBFN0SgqiDR2iep3H6C0ocXAR2ptuoZmDwu3jv7c_YNJotk6bK0qao11Kz9h8ZAEKaqRxnXtZM9w_4tXy_0R2">
 
  ### 4.2. На iPhone (реальном устройстве)
  > [!WARNING]  
