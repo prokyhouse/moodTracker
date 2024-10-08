@@ -28,6 +28,7 @@ public final class StatisticsUseCaseImpl {
 
     private func getStringFrom(date: Date) -> String {
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ru_RU")
         formatter.dateFormat = "MMMM"
         let month = formatter.string(from: date)
         formatter.dateFormat = "d"
