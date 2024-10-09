@@ -27,4 +27,9 @@ final class MainCoordinator: BaseNavigationCoordinator {
         let viewController = MainAssembly.instance().assembleModule(coordinator: self)
         navigationController.pushViewController(viewController, animated: true)
     }
+
+    func showAddReport() {
+        let viewController = AddReportAssembly.instance().assembleModule(coordinator: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
