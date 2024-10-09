@@ -20,6 +20,12 @@ public struct AppImages {
     public let nextArrow: AppImage = "nextArrow"
 
     public let calm: AppImage = "calm"
-    
+    public let delighted: AppImage = "delighted"
+    public let disappointed: AppImage = "disappointed"
+    public let melancholic: AppImage = "melancholic"
+    public let starStruck: AppImage = "starStruck"
+
+    public let mindfulness: AppImage = "mindfulness"
+
     public let search: AppImage = "search"
 }
