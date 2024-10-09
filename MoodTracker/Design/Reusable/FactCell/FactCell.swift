@@ -40,19 +40,20 @@ public final class FactCell: UICollectionViewCell {
         label.font = AppResources.fonts.styles.text
         label.textColor = AppResources.colors.elements
         label.lineBreakMode = .byTruncatingTail
+        label.numberOfLines = 2
         return label
     }()
 
     private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 4.0
+        stackView.spacing = 0.0
         return stackView
     }()
 
     private lazy var dashLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
-        layer.strokeColor = UIColor.black.cgColor
+        layer.strokeColor = AppResources.colors.elements.cgColor
         layer.lineDashPattern = [2, 2]
         layer.frame = contentView.bounds
         layer.fillColor = nil
@@ -99,10 +100,10 @@ private extension FactCell {
 
     func setupViews() {
         NSLayoutConstraint.useAndActivateConstraints([
-            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.spacing),
+            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.spacing / 2),
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.spacing),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.spacing),
-            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.spacing)
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.spacing / 2)
         ])
     }
 
