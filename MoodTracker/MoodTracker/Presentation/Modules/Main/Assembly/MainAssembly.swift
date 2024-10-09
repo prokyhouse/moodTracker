@@ -14,6 +14,7 @@ final class MainAssembly: Assembly {
 
     private lazy var useCaseAssembly: UseCaseAssembly = self.context.assembly()
     private lazy var serviceAssembly: ServiceAssembly = self.context.assembly()
+    private lazy var formatterAssembly: FormatterAssembly = self.context.assembly()
 
     // MARK: - Internal Methods
 
@@ -35,7 +36,9 @@ private extension MainAssembly {
             scope: .prototype,
             init: MainViewPresenter(
                 view: view,
-                coordinator: coordinator
+                coordinator: coordinator,
+                mainUseCase: self.useCaseAssembly.mainUseCase,
+                moodFormatter: self.formatterAssembly.moodUIFormatter
             )
         )
     }

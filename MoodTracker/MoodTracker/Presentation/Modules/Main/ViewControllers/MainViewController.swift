@@ -15,6 +15,14 @@ protocol MainView: AnyObject {
     func displayMoodReports(_ listOfProps: [Design.MoodCell.Props])
 
     func displayFact(_ props: Design.FactCell.Props)
+
+    func setAddButton(title: String?, image: UIImage?)
+
+    func setTip(
+        title: String?,
+        description: String?,
+        emoji: UIImage?
+    )
 }
 
 final class MainViewController: UIViewController {
@@ -60,6 +68,54 @@ final class MainViewController: UIViewController {
         return collectionView
     }()
 
+    private let addButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.layer.cornerRadius = Constants.addButtonHeight / 2
+        button.backgroundColor = AppResources.colors.accent
+        button.tintColor = AppResources.colors.background
+        button.imageView?.contentMode = .scaleAspectFit
+        button.titleLabel?.font = AppResources.fonts.styles.subtitle
+        button.contentEdgeInsets = UIEdgeInsets(
+            top: 4,
+            left: 4,
+            bottom: 4,
+            right: 26
+        )
+        button.titleEdgeInsets = UIEdgeInsets(
+            top: 4,
+            left: 26,
+            bottom: 4,
+            right: 4
+        )
+        return button
+    }()
+
+    private lazy var tipView: UIView = UIView()
+
+    private lazy var tipTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = AppResources.fonts.styles.text
+        label.textColor = AppResources.colors.elements
+        label.lineBreakMode = .byTruncatingTail
+        label.numberOfLines = 1
+        return label
+    }()
+
+    private lazy var tipDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = AppResources.fonts.styles.subtitle
+        label.textColor = AppResources.colors.elements
+        label.lineBreakMode = .byTruncatingTail
+        label.numberOfLines = 0
+        return label
+    }()
+
+    private lazy var tipEmojiImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -95,9 +151,11 @@ final class MainViewController: UIViewController {
 
 private extension MainViewController {
     func addSubviews() {
-        view.addSubviews(navBar, collectionView)
+        view.addSubviews(navBar, collectionView, addButton, tipView)
+        tipView.addSubviews(tipTitleLabel, tipDescriptionLabel, tipEmojiImageView)
 
         view.bringSubviewToFront(navBar)
+        view.bringSubviewToFront(addButton)
     }
 
     func setupConstraints() {
@@ -116,10 +174,43 @@ private extension MainViewController {
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+        NSLayoutConstraint.useAndActivateConstraints([
+            addButton.heightAnchor.constraint(equalToConstant: Constants.addButtonHeight),
+            addButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -23 - (tabBarBottomInset())),
+            addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            addButton.widthAnchor.constraint(equalToConstant: Constants.addButtonWidth)
+        ])
+        NSLayoutConstraint.useAndActivateConstraints([
+            tipView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 60),
+            tipView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -60),
+            tipView.heightAnchor.constraint(equalTo: tipView.widthAnchor),
+            tipView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        NSLayoutConstraint.useAndActivateConstraints([
+            tipTitleLabel.leadingAnchor.constraint(equalTo: tipView.leadingAnchor, constant: Constants.horizontalSpacing),
+            tipTitleLabel.bottomAnchor.constraint(equalTo: tipDescriptionLabel.topAnchor, constant: -8),
+        ])
+        NSLayoutConstraint.useAndActivateConstraints([
+            tipEmojiImageView.leadingAnchor.constraint(equalTo: tipTitleLabel.trailingAnchor, constant: 4),
+            tipEmojiImageView.heightAnchor.constraint(equalToConstant: 18),
+            tipEmojiImageView.widthAnchor.constraint(equalToConstant: 18),
+            tipEmojiImageView.centerYAnchor.constraint(equalTo: tipTitleLabel.centerYAnchor)
+        ])
+        NSLayoutConstraint.useAndActivateConstraints([
+            tipDescriptionLabel.leadingAnchor.constraint(equalTo: tipView.leadingAnchor, constant: Constants.horizontalSpacing),
+            tipDescriptionLabel.trailingAnchor.constraint(equalTo: tipView.trailingAnchor, constant: -Constants.horizontalSpacing),
+            tipDescriptionLabel.bottomAnchor.constraint(lessThanOrEqualTo: tipView.bottomAnchor, constant: -Constants.horizontalSpacing),
+            tipDescriptionLabel.centerYAnchor.constraint(equalTo: tipView.centerYAnchor)
+        ])
     }
 
     func setupViews() {
         view.backgroundColor = AppResources.colors.background
+
+        tipView.layer.cornerRadius = Constants.cornerRadius
+        tipView.layer.borderColor = AppResources.colors.gray.cgColor
+        tipView.layer.borderWidth = 1
+        tipView.clipsToBounds = true
     }
 
     func adjustScrollViewInsetIfNeeded() {
@@ -136,6 +227,36 @@ private extension MainViewController {
             collectionView.contentInset.bottom = bottomInset
         }
     }
+
+    func configureContextMenu(id: UUID) -> UIContextMenuConfiguration{
+        UIContextMenuConfiguration(
+            actionProvider: { [weak self] _ -> UIMenu? in
+                guard let self else { return nil }
+
+                let delete = UIAction(
+                    title: "Удалить",
+                    image: UIImage(systemName: "trash.fill")?.withTintColor(AppResources.colors.red),
+                    identifier: nil,
+                    discoverabilityTitle: nil,
+                    attributes: .destructive,
+                    state: .off
+                ) { [weak self] (_) in
+                    guard let self else { return }
+                    presenter?.onDeleteActionTap(moodId: id)
+                }
+
+                return UIMenu(
+                    options: .displayInline,
+                    children: [delete]
+                )
+            }
+        )
+    }
+
+    @objc
+    func onAddButtonTap() {
+        presenter?.onAddButtonTap()
+    }
 }
 
 // MARK: - MainView
@@ -148,12 +269,36 @@ extension MainViewController: MainView {
     func displayMoodReports(_ listOfProps: [Design.MoodCell.Props]) {
         moodCellsProps = listOfProps
         collectionView.isHidden = listOfProps.isEmpty
+        tipView.isHidden = !listOfProps.isEmpty
         collectionView.reloadData()
     }
 
     func displayFact(_ props: FactCell.Props) {
         factCellProps = props
         collectionView.reloadData()
+    }
+
+    func setAddButton(
+        title: String?,
+        image: UIImage?
+    ) {
+        addButton.isHidden = title == nil || image == nil
+        addButton.setTitle(title, for: .normal)
+        addButton.setImage(image, for: .normal)
+        addButton.addTarget(self, action: #selector(onAddButtonTap), for: .touchUpInside)
+
+        addButton.layoutIfNeeded()
+    }
+
+    func setTip(
+        title: String?,
+        description: String?,
+        emoji: UIImage?
+    ) {
+        tipView.isHidden = title == nil || description == nil
+        tipTitleLabel.text = title
+        tipDescriptionLabel.text = description
+        tipEmojiImageView.image = emoji
     }
 }
 
@@ -165,6 +310,12 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
+        if factCellProps != nil, indexPath.item == moodCellsProps.count / 2 {
+            let height = FactCell.Constants.height
+            let width = UIScreen.main.bounds.width - Constants.spacing * 2
+            return CGSize(width: width, height: height)
+        }
+
         let height = MoodCell.Constants.height
         let width = UIScreen.main.bounds.width - Constants.spacing * 2
         return CGSize(width: width, height: height)
@@ -174,8 +325,26 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - UICollectionViewDelegate
 
 extension MainViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        presenter?.onMoodCellTap(withId: moodCellsProps[indexPath.item].id)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        contextMenuConfigurationForItemAt indexPath: IndexPath,
+        point: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        if factCellProps != nil, indexPath.item == moodCellsProps.count / 2 {
+            return nil
+        }
+
+        let adjustedIndex: Int
+        if factCellProps != nil && indexPath.item > moodCellsProps.count / 2 {
+            adjustedIndex = indexPath.item - 1
+        } else {
+            adjustedIndex = indexPath.item
+        }
+
+        let props = moodCellsProps[adjustedIndex]
+        return configureContextMenu(id: props.id)
     }
 }
 
@@ -240,5 +409,7 @@ private extension MainViewController {
         static let horizontalSpacing: CGFloat = 16.0
         static let innerMargins: UIEdgeInsets = .zero
         static let contentMargins: UIEdgeInsets = .zero
+        static let addButtonHeight: CGFloat = 40.0
+        static let addButtonWidth: CGFloat = 220.0
     }
 }
