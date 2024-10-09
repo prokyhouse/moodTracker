@@ -22,4 +22,11 @@ public final class UseCaseAssembly: Assembly {
             init: StatisticsUseCaseImpl(storageService: self.serviceAssembly.storageService)
         )
     }
+
+    public var mainUseCase: MainUseCase {
+        define(
+            scope: .lazySingleton,
+            init: MainUseCaseImpl(coreDataService: self.serviceAssembly.storageService)
+        )
+    }
 }
