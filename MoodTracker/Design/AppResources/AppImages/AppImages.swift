@@ -27,5 +27,8 @@ public struct AppImages {
 
     public let mindfulness: AppImage = "mindfulness"
 
+    public let deselectedRadioButton: AppImage = "deselectedRadioButton"
+    public let selectedRadioButton: AppImage = "selectedRadioButton"
+
     public let search: AppImage = "search"
 }

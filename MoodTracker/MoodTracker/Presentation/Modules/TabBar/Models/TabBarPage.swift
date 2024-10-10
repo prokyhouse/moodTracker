@@ -11,6 +11,7 @@ import UIKit
 public enum TabBarPage: Int, CaseIterable {
     case main = 0
     case statistics = 1
+    case settings = 2
 
     public func getTitle() -> String {
         return title
@@ -36,6 +37,8 @@ private extension TabBarPage {
             return "Главная"
         case .statistics:
             return "Статистика"
+        case .settings:
+            return "Настройки"
         }
     }
     
@@ -46,6 +49,9 @@ private extension TabBarPage {
 
         case .statistics:
             return AppResources.images.chart.get()
+
+        case .settings:
+            return AppResources.images.settings.get()
         }
     }
     
@@ -56,6 +62,9 @@ private extension TabBarPage {
 
         case .statistics:
             return AppResources.images.chartFill.get()
+
+        case .settings:
+            return AppResources.images.settingsFill.get()
         }
     }
 }

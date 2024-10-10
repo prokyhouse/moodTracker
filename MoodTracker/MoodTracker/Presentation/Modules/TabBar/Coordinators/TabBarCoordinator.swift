@@ -78,6 +78,9 @@ private extension TabBarCoordinator {
 
             case .statistics:
                 controller = makeAndStartStatisticsTabController()
+
+            case .settings:
+                controller = makeAndStartSettingsTabController()
             }
             
             controller.setNavigationBarHidden(true, animated: false)
@@ -98,6 +101,14 @@ private extension TabBarCoordinator {
     func makeAndStartStatisticsTabController() -> UINavigationController {
         let navigationController = UINavigationController()
         let coordinator = StatisticsCoordinator(navigationController: navigationController)
+        add(child: coordinator)
+        coordinator.start()
+        return navigationController
+    }
+
+    func makeAndStartSettingsTabController() -> UINavigationController {
+        let navigationController = UINavigationController()
+        let coordinator = SettingsCoordinator(navigationController: navigationController)
         add(child: coordinator)
         coordinator.start()
         return navigationController

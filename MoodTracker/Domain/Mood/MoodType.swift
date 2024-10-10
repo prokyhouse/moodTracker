@@ -5,6 +5,8 @@
 //  Created by Kirill Prokofyev on 04.10.2024.
 //
 
+import Foundation
+
 public enum MoodType: Int {
     /// Очень приятное
     case starStruck = 5
