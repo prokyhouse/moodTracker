@@ -153,11 +153,11 @@ struct StatisticsDataView: View {
             return Color(uiColor: AppResources.colors.orange)
             
         case 3:
-            return Color(uiColor: AppResources.colors.indigo)
-            
-        case 2:
             return Color(uiColor: AppResources.colors.green)
-            
+
+        case 2:
+            return Color(uiColor: AppResources.colors.indigo)
+
         case 1:
             return Color(uiColor: AppResources.colors.blue)
             
